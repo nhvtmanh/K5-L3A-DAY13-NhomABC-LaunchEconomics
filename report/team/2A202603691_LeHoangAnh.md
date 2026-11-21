@@ -11,7 +11,7 @@
 - Hoàn thiện các hàm A1 và `mo_hinh` trong `src/lab13.py`, gồm tính token/tool trên mọi lần chạy, thời gian nhân viên giả lập, số việc thành công và chi phí mỗi việc thành công.
 - Bổ sung tính toán/in kết quả A2–A4, độ nhạy B1–B2, so sánh chi phí toàn hệ thống B3 và kịch bản xem lại toàn bộ B4.
 - Điền `report/team/bang_chi_phi.md` từ output của chương trình; ghi nhãn simulated cho khoản dựa trên phút giả lập.
-- CP3 chưa thực hiện trong phần việc này; cần tự gắn nhãn độc lập trước khi đối chiếu với thành viên thứ hai.
+- Kết quả CP3 được chấp nhận theo xác nhận của người dùng đã lưu tại [2A202603691_CP3_ket_qua.md](2A202603691_CP3_ket_qua.md); đối chiếu bộ của Mạnh trùng 20/20 = 100%. Chưa xác lập lượt gắn nhãn độc lập ban đầu.
 
 ## 3. Bằng chứng
 
@@ -27,4 +27,4 @@
 
 ## 5. Tự đánh giá
 
-Phần A–B đã có code chạy và hồ sơ số liệu. Cần đọc, hiểu và tự giải thích phép tính; hoàn thành CP3 độc lập và các phần hồ sơ còn lại theo phân công nhóm trước khi nộp.
+Phần A–B đã có code chạy và hồ sơ số liệu. Cần đọc, hiểu và tự giải thích phép tính; bảng kết quả CP3 đã có hai bộ được chấp nhận, cần phân biệt kết quả đã chốt với bằng chứng về quy trình gắn độc lập; hoàn thành các phần hồ sơ còn lại theo phân công nhóm trước khi nộp.

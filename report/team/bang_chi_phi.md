@@ -82,4 +82,5 @@ Phạm vi có 900 việc thành công trên 1.200 yêu cầu toàn mẫu. Chi ph
 ## B4 · Nếu phải xem lại tất cả
 
 - Trong phạm vi noi_dia + hang_nang, giả định 100% xem lại 5 phút cho 948 yêu cầu có ít nhất một lần chạy `ok`, và làm lại 9 phút cho 48 ca: chi phí **11.743 đ/việc thành công = 0,98×** baseline 12.000 đ (simulated).
-- Pilot cần đo thời gian xem lại/làm lại thực tế và tỷ lệ cần xem lại; nếu thời gian làm lại theo dữ liệu simulated cao hơn giả định 9 phút, kịch bản này có thể vượt baseline.
+- Nếu dùng 15,3 phút làm lại theo kịch bản hướng dẫn: tổng = 224.513,27 + 948 × 5 × 2.000 + 48 × 15,3 × 2.000 = 11.173.313,27 đ; chia 900 = **12.414,79 đ, làm tròn 12.415 đ/việc = 1,03×** baseline (**simulated**, chưa cộng cố định), cao hơn nhân viên tự làm.
+- Pilot cần đo thời gian xem lại/làm lại thực tế và tỷ lệ cần xem lại; chỉ giảm xem lại khi đạt điều kiện sử dụng và an toàn của CP4, không khẳng định tiết kiệm từ giả định 9 phút.

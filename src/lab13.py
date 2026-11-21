@@ -4,6 +4,7 @@ Không cần khoá API. Điền các chỗ ghi VIẾT Ở ĐÂY (đánh dấu TO
 Bản gốc chưa sửa nằm ở lab13_starter.py.
 """
 import math
+from statistics import NormalDist
 import pandas as pd
 
 # Bảng giá GIẢ ĐỊNH của lab (không phải giá thật của nhà cung cấp nào)
@@ -103,6 +104,25 @@ def mo_hinh(runs, reqs, gia_vao=26, gia_ra=130, gia_tool=15, luong_phut=2000,
     }
 
 
+def co_mau(p1, p2, alpha=0.05, power=0.8):
+    """Cỡ mẫu mỗi nhóm cho hai tỷ lệ, kiểm định hai phía, phân bổ 1:1.
+
+    Công thức xấp xỉ chuẩn D1 trong hướng dẫn; chưa nhân hệ số thiết kế.
+    """
+    if not (0 < p1 < 1 and 0 < p2 < 1 and p1 != p2):
+        raise ValueError('Hai tỷ lệ phải khác nhau và nằm trong (0, 1)')
+    if not (0 < alpha < 1 and 0.5 < power < 1):
+        raise ValueError('Cần 0 < alpha < 1 và 0,5 < power < 1')
+    za = NormalDist().inv_cdf(1 - alpha / 2)
+    zb = NormalDist().inv_cdf(power)
+    pb = (p1 + p2) / 2
+    return math.ceil(
+        (za * math.sqrt(2 * pb * (1 - pb))
+         + zb * math.sqrt(p1 * (1 - p1) + p2 * (1 - p2))) ** 2
+        / (p2 - p1) ** 2
+    )
+
+
 if __name__ == '__main__':
     runs = pd.read_csv('logix_runs.csv')
     reqs = pd.read_csv('logix_requests.csv', keep_default_na=False)
@@ -180,8 +200,61 @@ if __name__ == '__main__':
     print(f"requests={len(scope)} reviewed_after_ok={len(requests_with_ok)} review_minutes={review_minutes} "
           f"rework_cases={rework_cases} total={b4_total:,.2f} cps={b4_total/b4_success:,.2f} "
           f"({b4_total/b4_success/BASELINE:.4f}x baseline)")
+    # B4 · Kịch bản nhạy dùng 15,3 phút làm lại theo hướng dẫn (giá trị làm tròn).
+    b4_long_total = token_tool + review_minutes * LUONG_PHUT + rework_cases * 15.3 * LUONG_PHUT
+    print(f'B4 · Làm lại 15,3 phút: cps={b4_long_total/b4_success:,.2f} '
+          f'({b4_long_total/b4_success/BASELINE:.4f}x baseline), simulated')
 
-    # TODO CP4 · Nhiệm vụ D: cỡ mẫu.
-    # TODO CP4 · Nhiệm vụ D: cỡ mẫu.
-    #   from statsmodels.stats.proportion import proportion_effectsize
-    #   from statsmodels.stats.power import NormalIndPower
+    # D1 · Tính trước khi chọn đơn vị ngẫu nhiên; dùng công thức của lab.
+    from statsmodels.stats.proportion import proportion_effectsize
+    from statsmodels.stats.power import NormalIndPower
+
+    icc = 0.02
+    n5 = co_mau(0.70, 0.75)
+    de75 = 1 + (75 - 1) * icc
+    raw75 = math.ceil(n5 * de75)
+    staff75 = math.ceil(raw75 / 75)
+    clusters = 20
+    n6 = co_mau(0.70, 0.76)
+    # Giải c*m / (1 + (m-1)*ICC) >= n6; khả thi khi c > n6*ICC.
+    m = math.ceil(n6 * (1 - icc) / (clusters - n6 * icc))
+    de = 1 + (m - 1) * icc
+    effective = clusters * m / de
+    power5 = NormalIndPower().power(
+        effect_size=proportion_effectsize(0.75, 0.70),
+        nobs1=n6, alpha=0.05, ratio=1, alternative='two-sided',
+    )
+    print('\nD1 · Cỡ mẫu pilot (giả định lab: ICC=0,02, alpha=0,05, power=0,80)')
+    print(f'a) Theo yêu cầu: {n5} mỗi nhóm để phát hiện +5 điểm phần trăm')
+    print(f'b) m=75: DE={de75:.2f}; {raw75} yêu cầu/nhóm; '
+          f'{staff75} người/nhóm, tổng {2*staff75} > 40')
+    print(f'c) 20 nhân viên/nhóm: n hiệu dụng < {clusters/icc:.0f} < {n5}')
+    print(f'd) 6 depot/nhóm: n hiệu dụng < {6/icc:.0f} < {n5}')
+    print(f'e) +6 điểm: {n6} hiệu dụng/nhóm; m>={m}; '
+          f'DE={de:.2f}; {clusters*m} yêu cầu/nhóm; n hiệu dụng={effective:.2f}')
+    print(f'Đánh đổi: nếu tác động thật chỉ +5 điểm, power xấp xỉ {power5:.4f}')
+
+    print('\nD3 · An toàn và kiểm tra dữ liệu trước pilot')
+    for label, data in (('Toàn mẫu', reqs), ('noi_dia + hang_nang', scope)):
+        reopened = int(data['mo_lai_trong_7_ngay'].sum())
+        print(f'{label}: mở lại={reopened}/{len(data)}={reopened/len(data):.4%}')
+    print(f'CSV chỉ có {reqs.staff_id.nunique()} nhân viên, '
+          f'{reqs.depot.nunique()} depot; phải xác minh roster 40 người trước pilot 20+20.')
+
+    # E1 · Chỉ số mô tả trên dữ liệu giả lập, chưa có đối chứng để kết luận tác động.
+    primary = int(((reqs['dong_trong_24h'] == 1)
+                   & (reqs['mo_lai_trong_7_ngay'] == 0)).sum())
+    reviewed = reqs[reqs['duoc_xem_lai'] == 1]
+    overridden = int(reviewed['quyet_dinh_xem_lai'].isin(['sua', 'bo']).sum())
+    reopened = int((reqs['mo_lai_trong_7_ngay'] == 1).sum())
+    print('\nE1 · Chỉ số trong đợt chạy thử (CSV giả lập, không có đối chứng)')
+    print(f'Chính: {primary}/{len(reqs)} = {primary/len(reqs):.4%}')
+    override_rate = overridden / len(reviewed) if len(reviewed) else math.nan
+    print(f'Bỏ qua gợi ý: {overridden}/{len(reviewed)} = {override_rate:.4%}')
+    print(f'An toàn (mở lại): {reopened}/{len(reqs)} = {reopened/len(reqs):.4%}')
+    scope_rework = int((scope['ket_qua'] == 'lam_lai').sum())
+    print(f'Làm lại trong phạm vi: {scope_rework}/{len(scope)} = {scope_rework/len(scope):.4%}')
+    system_per_request = (ket_qua['tong'] + ket_qua['khong_thanh_cong'] * BASELINE) / len(reqs)
+    print(f'Chi phí cả hệ thống/yêu cầu: {system_per_request:,.2f} đ '
+          f'({system_per_request/BASELINE:.4f}x baseline), simulated; chưa cộng cố định')
+    print('Mức mở trợ lý và lỗi tiền qua audit: CSV chưa có event tương ứng, chưa tính.')

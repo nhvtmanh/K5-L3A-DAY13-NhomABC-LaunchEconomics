@@ -1,51 +1,167 @@
-# Lab 13 · Nhiệm vụ D · Kế hoạch pilot trợ lý hoàn phí LogiX-VN (Gate 2a)
-# Điền mọi chỗ có dấu hỏi. Khi nộp, ngoài các dòng chú thích không còn dấu hỏi nào.
-# Kiểm tra đọc được: python -c "import yaml; yaml.safe_load(open('../report/team/pilot_plan.yaml'))"
-#
-# D1 · Cỡ mẫu (baseline 0,70; mục tiêu +5 điểm; alpha 0,05; power 0,8; ICC 0,02)
-#   a) Chia theo yêu cầu:
-#   b) Theo nhân viên, m = 75:
-#   c) 20 nhân viên mỗi nhóm:
-#   d) 6 depot mỗi nhóm:
-#   e) Mức chênh 6 điểm (859 mỗi nhóm), 20 nhân viên mỗi nhóm:
-#
-# D2 · Năm câu kiểm tra "tách được tác động" với cách chia đã chọn (mỗi câu một dòng):
-#   1. Đối chứng chạy cùng thời gian:
-#   2. Chia ngẫu nhiên hay do người chọn:
-#   3. Ảnh hưởng gián tiếp và cách giảm:
-#   4. Chỉ số chính, ngưỡng, ngày quyết định đã viết trước:
-#   5. Ít nhất 20 cụm mỗi nhóm:
-#
-# Đánh đổi đã chấp nhận (nếu cách chia chưa đạt cả hai điều kiện):
-#
-# Tỉ lệ mo_lai_trong_7_ngay hiện tại và ngưỡng an toàn đã chọn:
+# Lab 13 · CP4 · Nhiệm vụ D · Kế hoạch pilot LogiX-VN (Gate 2a)
+# Hồ sơ: Nguyễn Hoàng Văn Tiến Mạnh — 2A202603717.
+# Nguồn: hướng dẫn buổi chiều, đề DOCX; số D1/D3 tính bởi src/lab13.py.
+# D1: baseline=0,70; mục tiêu ban đầu +5 điểm; alpha=0,05; power=0,80; ICC=0,02.
+# a) Chia theo yêu cầu: 1.251 yêu cầu mỗi nhóm; có nguy cơ tràn tác động cùng nhân viên.
+# b) Nhân viên, m=75: DE=2,48; ceil(1.251*2,48)=3.103 yêu cầu/nhóm;
+#    ceil(3.103/75)=42 người/nhóm, tổng 84 > 40, không khả thi.
+# c) 20 nhân viên/nhóm: n hiệu dụng < 20/0,02 = 1.000 < 1.251, không đủ cho +5 điểm.
+# d) 6 depot/nhóm: n hiệu dụng < 6/0,02 = 300 < 1.251; chỉ 6 cụm/nhóm.
+# e) +6 điểm: 859 hiệu dụng/nhóm; 20m/(0,98+0,02m)>=859 => m>=299.
+#    DE=6,96; 5.980 yêu cầu thô/nhóm; n hiệu dụng=859,195; 11.960 yêu cầu hai nhóm.
+# D2 · Tách tác động:
+# 1. Đối chứng đồng thời: 20 người đối chứng cùng kỳ đo, dùng quy trình tự làm.
+# 2. Ngẫu nhiên: seed 20261121; phân tầng depot, ràng buộc tổng 20/20 trước rollout.
+# 3. Tràn tác động: có thể chia sẻ gợi ý; khóa quyền tài khoản và kiểm tra log staff_id mỗi ngày.
+# 4. Viết trước: khóa chỉ số, cách chia, luật dừng và ngày quyết định trước 2026-11-30.
+# 5. Số cụm: đúng 20 nhân viên/nhóm; mẫu CSV chỉ có 20 người ở 6 depot, cần roster đầy đủ.
+# Đánh đổi đề nghị: dùng MDE=0,06; nếu tác động thật +5 điểm, power xấp xỉ 0,6417.
+# Đây là kế hoạch chờ phê duyệt, không ghi nhận Giám đốc vận hành đã ký.
+# D3: mở lại toàn mẫu 51/1.200=4,25%; trong phạm vi 39/982=3,9715%.
+# Không dùng ngưỡng tuyệt đối 3%; chọn chênh >=2 điểm so đối chứng hoặc tỷ lệ >6%.
+# Lịch bên dưới là lịch kế hoạch, không phải mốc triển khai đã diễn ra.
 
 pilot:
-  owner: "?"                      # một người có tên vai trò, không ghi "cả đội"
-  scope: "?"                      # loại yêu cầu nào, depot nào; dựa vào kết quả A3
+  owner: "Giám đốc vận hành LogiX-VN"
+  status: "Kế hoạch hoàn thiện, chờ duyệt Gate 2a và kiểm tra điều kiện bắt đầu"
+  scope: >-
+    Chỉ noi_dia và hang_nang tại 12 depot LogiX-VN sau khi xác minh đủ 40 nhân viên.
+    A3: 2.696 và 8.221 đ/việc thành công (simulated); loại quoc_te (22.515 đ,
+    1,88 lần baseline, simulated) và doi_tac (10.215 đ, 0,85 lần, simulated)
+    do hiệu quả thấp hoặc điều khoản riêng. CSV hiện chỉ đại diện 6 depot và 20 người,
+    chưa xác minh dữ liệu vận hành của 6 depot còn lại.
+  preconditions:
+    - "Giám đốc vận hành duyệt MDE=0,06 và power xấp xỉ 0,64 nếu tác động thật chỉ +5 điểm; ký trước ngày bắt đầu."
+    - "Xác minh 40 staff_id duy nhất, có thể tham gia đủ kỳ; khóa roster và phân bổ đúng 20 người/nhóm, không suy diễn roster từ 20 người trong CSV. Thiếu người thì chưa chạy thiết kế này."
+    - "Kỹ sư trưởng agent kiểm tra ca 7 và 20: chỉ báo thành công khi ghi sổ ok; yêu cầu gửi lại cùng nghiệp vụ dùng cùng khóa chống trùng, không tạo hoàn kép."
+    - "PM và Trưởng nhóm CSKH kiểm tra chính sách, tool và bảng giá có hiệu lực tại toàn bộ depot trong phạm vi; chưa đạt thì chưa mở pilot."
+    - "Bật event có request_id, staff_id, arm, trace_id và thời điểm; ghi phút xem lại/làm lại thực tế, kiểm tra quyền và cờ rollback trước ngày bắt đầu."
   assignment:
-    unit: "?"                     # request | staff | depot
+    unit: "staff"
     control_share: 0.5
     randomized: true
-  rollout: [0.10, 0.25, 0.50]     # mỗi bước một tuần
+    seed: 20261121
+    stratification: "Theo depot, cân bằng số người mỗi nhóm trong từng depot khi khả thi; tổng đúng 20/20."
+    procedure: >-
+      Khóa danh sách 40 người và depot trước phân nhóm; bốc thăm có seed trong từng tầng,
+      xử lý tầng lẻ bằng bốc thăm có ràng buộc tổng 20 can thiệp và 20 đối chứng.
+      Lưu roster, script và kết quả phân nhóm trước khi bật quyền; không chọn theo hiệu quả quan sát.
+    control: "20 người tự làm theo quy trình hiện hành, cùng thời gian; không có quyền mở trợ lý."
+    analysis: >-
+      Phân tích theo nhóm được phân ban đầu (intention-to-treat), giữ nguyên staff_id/arm
+      kể cả không dùng trợ lý hoặc chuyển nhân viên. Đếm mọi yêu cầu đủ điều kiện được giao
+      trong kỳ đo, không chỉ các yêu cầu trợ lý làm thành công. Điều chỉnh tầng depot và
+      tương quan theo nhân viên bằng phương pháp phù hợp với 20 cụm/nhóm; báo khoảng tin cậy.
+      D1 là xấp xỉ thiết kế theo công thức lab, không bảo đảm power thực tế nếu ICC hoặc cỡ cụm khác.
+  rollout: [0.10, 0.25, 0.50]
+  rollout_schedule:
+    - share: 0.10
+      staff_enabled: 4
+      start: "2026-11-30"
+      end: "2026-12-06"
+      purpose: "Kiểm tra an toàn, ghi log và xem lại 100%; chưa tính mẫu xác nhận hiệu quả."
+    - share: 0.25
+      staff_enabled: 10
+      start: "2026-12-07"
+      end: "2026-12-13"
+      purpose: "Kiểm tra quy trình, thời gian thực tế, kế hoạch giảm xem lại; chưa tính mẫu xác nhận hiệu quả."
+    - share: 0.50
+      staff_enabled: 20
+      start: "2026-12-14"
+      end: "2026-12-27"
+      purpose: "Đo chính thức 20 can thiệp và 20 đối chứng; dự kiến 2 tuần để đạt ít nhất 299 yêu cầu/người."
+  rollout_gate: >-
+    Mỗi bước chỉ mở khi Giám đốc vận hành kiểm tra luật dừng và ký cho chuyển bước;
+    tập 4 rồi 10 người là tập con được bốc thăm trước trong 20 người can thiệp.
+    Chỉ bắt đầu kỳ đo chính thức khi đủ 20 người được bật. Nếu chậm tiến độ,
+    hoãn kỳ đo và ngày quyết định bằng bản sửa kế hoạch trước khi xem kết quả chính.
   primary_metric:
     name: dong_trong_24h_khong_mo_lai_7_ngay
+    definition: >-
+      Số yêu cầu đủ điều kiện đóng trong 24 giờ từ lúc tạo và không mở lại trong
+      7 ngày sau khi đóng / tổng yêu cầu đủ điều kiện của từng nhóm trong kỳ đo.
+      Không đóng trong 24 giờ là thất bại. Chỉ chốt cohort sau đủ thời gian theo dõi;
+      ca thiếu kết quả theo dõi phải báo riêng và phân tích độ nhạy, không bỏ khỏi mẫu để tăng tỷ lệ.
     baseline: 0.70
-    mde: 0.05
+    baseline_source: "Giả định thiết kế D1 của lab; không phải tỷ lệ đo ở nhóm đối chứng hiện có."
+    mde: 0.06
     alpha: 0.05
     power: 0.80
-    n_per_arm: "?"
-    design_effect: "?"            # 1 nếu chia theo yêu cầu
-    clusters_per_arm: "?"         # để trống nếu chia theo yêu cầu
+    n_per_arm: 859
+    design_effect: 6.96
+    clusters_per_arm: 20
+    requests_per_cluster_min: 299
+    raw_n_per_arm_min: 5980
+    effective_n_per_arm: 859.1954022988506
+    power_if_true_effect_005: 0.6416562543819839
+    collection_window: "2026-12-14 đến 2026-12-27, chỉ giai đoạn 0.50 và đối chứng đồng thời."
+    followup_end: "2027-01-04"
+    followup_note: "Chờ tối đa 24 giờ đóng và thêm đủ 7 ngày theo dõi; khóa dữ liệu sau khi cohort cuối đủ tuổi."
+    sample_gate: >-
+      Kiểm tra số lượng theo staff_id, chưa xem hiệu quả: đủ 20 cụm/nhóm, tối thiểu
+      299 yêu cầu/người. Nếu cụm không đều thì tính lại DE/n hiệu dụng với cỡ cụm thực tế;
+      không loại bớt yêu cầu của cụm lớn. Chưa đủ mẫu hoặc theo dõi thì không kết luận hiệu quả;
+      tại ngày quyết định ghi chưa đủ bằng chứng, không tăng rollout.
   identifiability:
-    concurrent_control: "?"
-    spillover_risk: "?"
-    predeclared: "?"
+    concurrent_control: "Có: 20 người đối chứng cùng kỳ 0.50, cùng phạm vi đủ điều kiện; phân tầng depot để giảm khác biệt."
+    spillover_risk: >-
+      Nhân viên có thể chia sẻ gợi ý. Phân quyền theo staff_id, không dùng tài khoản chung;
+      log agent_suggestion_shown và truy cập trái arm mỗi ngày; huấn luyện riêng, lưu mức nhiễm.
+      Nhiễm được ghi nhận và báo cáo, không tự đổi nhóm hoặc loại người khỏi phân tích.
+    predeclared: "Khóa kế hoạch, phân nhóm, chỉ số, ngưỡng, kỳ đo và ngày quyết định trước 2026-11-30; mọi sửa đổi có phiên bản và lý do."
+  monitoring:
+    safety_baseline_all: {reopened: 51, requests: 1200, rate: 0.0425}
+    safety_baseline_scope: {reopened: 39, requests: 982, rate: 0.03971486761710794}
+    safety_measurement: >-
+      So tỷ lệ mở lại của cohort cùng kỳ đã có đủ 7 ngày theo dõi ở hai arm;
+      mỗi tỷ lệ dùng tổng yêu cầu đủ điều kiện trong cohort làm mẫu số.
+      Kiểm tra mỗi ngày trên cửa sổ cohort tạo trong 7 ngày gần nhất đã đủ tuổi;
+      tối thiểu 100 yêu cầu đủ theo dõi/arm mới áp dụng ngưỡng tỷ lệ.
+      Thiếu mẫu thì tiếp tục giám sát sự cố từng ca, không cho chuyển bước chỉ dựa vào tỷ lệ chưa đủ mẫu.
+    cost_measurement: >-
+      Mỗi tuần cộng token/tool của mọi lần chạy và phút xem lại/làm lại đo thật nhân 2.000 đ,
+      chia số việc thành công đã đủ 7 ngày theo dõi. Báo riêng chi phí cả hệ thống
+      cộng 12.000 đ/ca không thành công và phần cố định 40 triệu đ/tháng theo khối lượng.
+      Ngưỡng 8.000 đ áp dụng chi phí biến đổi/việc thành công sau tuần ổn định,
+      không nhầm với CPS đã cộng cố định. Mẫu số thành công bằng 0 thì dừng luồng để rà soát ngay.
+    adoption_measurement: >-
+      Tỷ lệ bỏ qua = số quyết định sua hoặc bo / tổng quyết định xem lại giu, sua, bo
+      của nhóm can thiệp; mỗi tuần khử trùng theo request_id, báo cả tử/mẫu.
+      Không có quyết định xem lại thì không coi là 0%; chưa được chuyển bước.
+    review_policy: >-
+      Bước 0.10 xem lại 100%. Chỉ giảm theo bậc sau phê duyệt của Trưởng nhóm CSKH,
+      tỷ lệ sua+bo dưới 15% trong tuần trên ít nhất 100 quyết định, không có hoàn trùng,
+      không vi phạm luật an toàn; không ép giảm xem lại chỉ để đạt ngưỡng chi phí.
+      Chưa đạt thì giữ xem lại hoặc tạm dừng, không mặc định tiết kiệm so nhân viên.
   stop_rules:
-    - "NẾU ? TRONG ? THÌ ? KHÔNG THÌ ?"
-    - "NẾU ? TRONG ? THÌ ? KHÔNG THÌ ?"
-    - "NẾU ? TRONG ? THÌ ? KHÔNG THÌ ?"
-  interim_looks: "chỉ kiểm tra chỉ số an toàn"
-  rollback: "?"                   # ai bấm, mất bao lâu, khách được phục vụ bằng gì
-  decision_date: "?"
-  simulated_inputs: ["?"]         # liệt kê mọi con số giả lập đã dùng
+    - "NẾU tỷ lệ mở lại của nhóm can thiệp cao hơn đối chứng ít nhất 2 điểm phần trăm hoặc vượt 6%, trên cohort đủ tuổi và đủ 100 yêu cầu/arm TRONG 3 lần kiểm tra hằng ngày liên tiếp THÌ Giám đốc vận hành tắt trợ lý trong 30 phút và giao Trưởng nhóm CSKH rà lỗi KHÔNG THÌ không được chuyển bước rollout hoặc mở lại khi chưa có kết quả rà soát."
+    - "NẾU có ít nhất 1 ca hoàn trùng hoặc thông báo đã hoàn mà không có ghi sổ ok TRONG bất kỳ lần đối soát hằng giờ hoặc cảnh báo tức thời nào THÌ Giám đốc vận hành tắt luồng hoàn tự động trong 30 phút, Kỹ sư trưởng agent chặn retry không an toàn và Kế toán trưởng đối soát giao dịch KHÔNG THÌ không được tiếp tục hoàn tự động hoặc chuyển bước rollout."
+    - "NẾU chi phí biến đổi mỗi việc thành công vượt 8.000 đ TRONG 2 tuần liên tiếp ở giai đoạn 0.50 sau khi cohort đủ tuổi THÌ PM trong 1 ngày làm việc trình thu hẹp về noi_dia và giới hạn 2 lần chạy để Giám đốc vận hành quyết định; mọi đổi phạm vi làm dừng kỳ đo hiện tại để lập kỳ đo mới KHÔNG THÌ không mở rộng hang_nang hoặc công bố hiệu quả từ hai phạm vi trộn lẫn."
+    - "NẾU tỷ lệ bỏ qua gợi ý vượt 40% trên ít nhất 100 quyết định xem lại TRONG 1 tuần THÌ Trưởng nhóm CSKH phỏng vấn 5 nhân viên trong 3 ngày, sửa quy trình và đo lại KHÔNG THÌ không được chuyển bước rollout."
+  interim_looks: >-
+    Chỉ xem chỉ số an toàn để quyết định dừng sớm; theo dõi chi phí, số mẫu, sử dụng
+    và chất lượng log để vận hành. Không xem kiểm định hay tác động chỉ số chính giữa kỳ,
+    không dừng sớm vì hiệu quả tốt. Chỉ phân tích chính một lần sau khóa dữ liệu đủ mẫu và theo dõi.
+  rollback: >-
+    Giám đốc vận hành ra lệnh và bấm cờ tắt; Kỹ sư trưởng agent bảo đảm hiệu lực trong 30 phút,
+    khóa quyền gọi tool hoàn tiền, bảo toàn trace và danh sách giao dịch đang xử lý.
+    Yêu cầu mới chuyển luồng nhân viên tự làm; giao dịch chưa rõ trạng thái được Kế toán trưởng
+    tra sổ cái bằng khóa nghiệp vụ trước khi thử tiếp, tránh hoàn kép.
+    Chỉ bật lại khi đã sửa lỗi, kiểm tra hồi quy ca 7/20 và Giám đốc vận hành ký duyệt.
+  decision_date: "2027-01-05"
+  decision_owner: "Giám đốc vận hành LogiX-VN"
+  decision_criteria: >-
+    Chỉ quyết định mở rộng khi đủ mẫu/theo dõi, không còn sự cố an toàn chưa xử lý,
+    đạt yêu cầu chi phí và sử dụng, tác động chính dương với khoảng tin cậy 95% loại trừ 0.
+    Báo ước lượng và khoảng tin cậy so với mục tiêu +6 điểm; MDE không phải cam kết tác động.
+    Kết quả không có ý nghĩa không chứng minh không có tác động, nhất là mức +5 điểm có power 0,64.
+    Thiếu điều kiện thì không mở rộng, ghi rõ bằng chứng còn thiếu và kế hoạch khắc phục.
+  simulated_inputs:
+    - "Toàn bộ CSV là giả lập: 1.200 yêu cầu, 1.624 lần chạy, 20 nhân viên/6 depot; tỷ lệ mở lại 51/1.200 và 39/982."
+    - "phut_xem_lai_simulated và phut_lam_lai_simulated; A2 CPS 4.472 đ; trong phạm vi CPS 3.414 đ; các CPS theo loại ở scope đều simulated."
+    - "B1 làm lại gấp đôi 6.787 đ (+51,77%); xem lại gấp đôi 6.292 đ (+40,70%), simulated."
+    - "B3 cả hệ thống với giới hạn 2 lần: 6.901.220 đ, simulated trên toàn mẫu, không phải dự báo trực tiếp cho pilot."
+    - "B4 xem lại 100%: 11.743 đ/việc với 9 phút làm lại; 12.414,79 đ (làm tròn 12.415 đ) khi dùng 15,3 phút, simulated; chưa cộng cố định."
+    - "Giá giả định: 26/130 đ mỗi 1.000 token vào/ra, 15 đ/tool; 2.000 đ/phút; nhân viên tự làm 6 phút = 12.000 đ."
+    - "Cố định 40 triệu đ/tháng; 45.000 yêu cầu/tháng; A4 tổng 4.599 đ/việc ở quy mô đầy đủ hoặc 5.784 đ khi nửa khối lượng, simulated."
+    - "Giả định thiết kế của lab: baseline 0,70, ICC 0,02; lựa chọn kế hoạch alpha 0,05, power 0,80, MDE 0,06, 40 người/12 depot; cần xác minh thực tế."

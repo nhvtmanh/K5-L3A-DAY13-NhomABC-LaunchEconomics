@@ -2,9 +2,9 @@
 
 ## Thông tin nhóm
 
-- Tên nhóm:
-- Lớp: L3A hoặc L3B
-- Repo nhóm: `K5-L3A-DAY13-TenNhom-LaunchEconomics` (xem [SUBMISSION.md](SUBMISSION.md))
+- Tên nhóm: ABC (theo tên repo hiện tại)
+- Lớp: L3A (theo tên repo hiện tại)
+- Repo nhóm: `K5-L3A-DAY13-NhomABC-LaunchEconomics` (xem [SUBMISSION.md](SUBMISSION.md))
 - URL repo, nhánh nộp, commit chốt:
 
 ## Thành viên
@@ -27,4 +27,10 @@ Kế hoạch chi tiết và prompt giao việc: [KE_HOACH_PHAN_CONG_VA_PROMPT.md
 
 ## Cá nhân
 
+Đóng góp hồ sơ CP3 của Nguyễn Hoàng Văn Tiến Mạnh (2A202603717), có hỗ trợ Codex: soạn [bảng lỗi](report/team/bang_loi.md) với phân tích 20 ca theo nhãn tham khảo của hướng dẫn, bảng khắc phục 5 loại và liên hệ số CP1–CP2 đã chạy kiểm chứng. Hai bộ nhãn được chấp nhận theo xác nhận của người dùng đã được lưu riêng và đối chiếu: 20/20 = 100%; bảng kết quả CP3 đã hoàn thiện. Chưa xác lập bằng chứng về lượt gắn nhãn độc lập ban đầu. Chi tiết công cụ và kiểm tra ở [báo cáo cá nhân](report/team/2A202603717_NguyenHoangVanTienManh.md).
+
 Mỗi thành viên đồng thời tạo một báo cáo riêng trong `report/team/` theo dạng `MSSV_HoTen.md`. Ghi đóng góp và bằng chứng thực tế, công cụ AI đã dùng và cách tự kiểm tra.
+
+Đóng góp CP4 của Nguyễn Hoàng Văn Tiến Mạnh (2A202603717): bổ sung tính cỡ mẫu D1 và tỷ lệ mở lại D3 trong `src/lab13.py`; hoàn thiện [pilot_plan.yaml](report/team/pilot_plan.yaml) với thiết kế 20–20 nhân viên, MDE 6 điểm, 299 yêu cầu/người, 4 luật dừng và rollback. Code chạy hết A–B–D, YAML đọc được và số liệu khớp tính toán. Đây là kế hoạch pilot, chưa ghi nhận triển khai hoặc phê duyệt; cần xác minh roster 40 người vì CSV chỉ có 20 người.
+
+Đóng góp CP5 của Nguyễn Hoàng Văn Tiến Mạnh (2A202603717): bổ sung output E1 và kịch bản B4 nhạy theo thời gian làm lại trong `src/lab13.py`; hoàn thiện [chỉ số/rủi ro](report/team/chi_so.md), [hồ sơ launch v0](report/team/ho_so_launch_v0.md), [báo cáo nhóm](report/team/group_report.md) và chuẩn bị [phiếu chấm Gate 2a](report/team/phieu_cham.md). Có 3 chỉ số tính thử, 2 chỉ số bổ sung, 15 event có trace_id, 4 rủi ro; đề nghị Go có điều kiện. Chưa có hồ sơ nhóm khác, điểm hội đồng hoặc buổi duyệt chéo thực tế.
