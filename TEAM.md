@@ -5,7 +5,7 @@
 - Tên nhóm: ABC
 - Lớp: L3A
 - Repo nhóm: `K5-L3A-DAY13-NhomABC-LaunchEconomics`
-- URL repo, nhánh nộp, commit chốt:
+- URL repo, nhánh nộp, commit chốt: https://github.com/nhvtmanh/K5-L3A-DAY13-NhomABC-LaunchEconomics/commit/67b0d9a61d1e5796be2d94f3103662be72e42eee
 
 ## Thành viên
 
