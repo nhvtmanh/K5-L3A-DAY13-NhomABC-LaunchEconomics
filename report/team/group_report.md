@@ -2,7 +2,7 @@
 
 ## 1. Thông tin nhóm
 
-Nhóm ABC, lớp L3A theo tên repo `K5-L3A-DAY13-NhomABC-LaunchEconomics`. Hai thành viên đã có thông tin: Lê Hoàng Anh (2A202603691) và Nguyễn Hoàng Văn Tiến Mạnh (2A202603717); xem [TEAM.md](../../TEAM.md). Chưa có thông tin 2 thành viên còn lại theo yêu cầu nhóm 4 người và thông tin liên hệ/repo nộp cuối.
+Nhóm ABC, lớp L3A theo tên repo `K5-L3A-DAY13-NhomABC-LaunchEconomics`. Hiện đã có thông tin ba thành viên: Lê Hoàng Anh (2A202603691), Nguyễn Hoàng Văn Tiến Mạnh (2A202603717) và Phan Văn Cường (2A202603669); xem [TEAM.md](../../TEAM.md). Thành viên thứ tư sẽ được bổ sung và phân công sau. Email/GitHub chưa được cung cấp.
 
 ## 2. Mục tiêu và cách tiếp cận
 
@@ -38,11 +38,11 @@ Kết quả duyệt chéo nhận từ hội đồng: **chưa có**. Phiếu nhó
 
 ## 6. Tổng hợp đóng góp
 
-Lê Hoàng Anh phụ trách code/phân tích A–B. Nguyễn Hoàng Văn Tiến Mạnh phụ trách hồ sơ C, code D/E, kế hoạch pilot, chỉ số, rủi ro, hồ sơ launch và chuẩn bị duyệt chéo. Hai bộ nhãn CP3 được chấp nhận theo xác nhận người dùng; chưa xác lập lượt làm độc lập. Chi tiết và công cụ ở [TEAM.md](../../TEAM.md), báo cáo cá nhân từng người.
+Lê Hoàng Anh phụ trách code/phân tích A–B. Nguyễn Hoàng Văn Tiến Mạnh phụ trách hồ sơ C, code D/E, kế hoạch pilot, chỉ số, rủi ro, hồ sơ launch và chuẩn bị duyệt chéo. Phan Văn Cường phụ trách kiểm số, đã đối chiếu ba kịch bản B3 từ CSV bằng Python thư viện chuẩn; kết quả khớp số làm tròn trong bảng chi phí. Hai bộ nhãn CP3 được chấp nhận theo xác nhận người dùng; chưa xác lập lượt làm độc lập. Chi tiết và công cụ ở [TEAM.md](../../TEAM.md), báo cáo cá nhân từng người.
 
 ## 7. Hạn chế và việc còn lại
 
-Hoàn thành hồ sơ nhóm được chấm, điểm/quyết định/câu trả lời duyệt chéo thật; bổ sung thành viên, liên hệ và bằng chứng CP3 còn thiếu; kiểm tra trên máy khác. Commit/push và nộp LMS theo [SUBMISSION.md](../../SUBMISSION.md) sau khi chốt bản nộp; chưa ghi nhận các bước này đã hoàn tất.
+Hoàn thành hồ sơ nhóm được chấm, điểm/quyết định/câu trả lời duyệt chéo thật; bổ sung thành viên thứ tư, thông tin liên hệ và bằng chứng CP3 còn thiếu; kiểm tra trên máy khác. Commit/push và nộp LMS theo [SUBMISSION.md](../../SUBMISSION.md) sau khi chốt bản nộp; chưa ghi nhận các bước này đã hoàn tất.
 
 ## 8. Tài liệu tham khảo
 

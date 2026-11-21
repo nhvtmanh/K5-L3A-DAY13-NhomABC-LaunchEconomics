@@ -14,15 +14,16 @@ Hoàn thiện bộ Lab 13 về kinh tế trợ lý hoàn phí LogiX-VN và xin d
 
 Nguồn chuẩn: `RULES.md`, `CHECKPOINTS.md`, `RUBRIC.md`, `SUBMISSION.md`, `docs/du_lieu_va_cong_thuc.md`, `docs/Lab13_Huong_dan_chi_tiet_buoi_chieu.md`, đề bài và hướng dẫn trong `docs/*.docx`, slide PDF và các mẫu trong `report/team/`.
 
-## Phân công đề xuất cho hai thành viên đã cung cấp
+## Phân công cho ba thành viên đã cung cấp
 
 | Người | Vai chính | Việc thực hiện | Bằng chứng cần lưu |
 |---|---|---|---|
 | Lê Hoàng Anh — 2A202603691 | Code và phân tích A/B | Hoàn thiện `src/lab13.py`; tính A1–A4 và B1–B4; điền `bang_chi_phi.md`; giải thích công thức và đối chiếu kết quả với tài liệu hướng dẫn. Sau giờ nghỉ chuyển vai viết code cho bạn còn lại. | Commit/file code; output chạy; bảng số và phép tính tự kiểm tra. |
 | Nguyễn Hoàng Văn Tiến Mạnh — 2A202603717 | Giữ hồ sơ, pilot và kiểm số | Tạo hồ sơ launch từ đầu; chuẩn bị `chi_so.md`, `pilot_plan.yaml`, `ho_so_launch_v0.md`; kiểm tra độc lập một phép tính A/B từ output; kiểm tra YAML và rubric. Ở CP3, tự gắn nhãn bộ 20 ca độc lập, không xem/trao đổi với bộ của Hoàng Anh trước khi cả hai lưu xong. Sau giờ nghỉ nhận vai code/kiểm tra D. | Commit/file hồ sơ; phép tính đối chiếu có cách làm; bộ nhãn độc lập có thời điểm/lưu riêng; kết quả kiểm YAML. |
-| Cả hai | Gắn nhãn độc lập CP3 | Mỗi người tự đọc 20 ca trong đề DOCX và ghi nhãn theo nguyên nhân gốc vào hai cột/bản riêng. Chỉ sau khi lưu xong mới so nhãn, tính đồng thuận và thống nhất nhãn cuối. | Hai bộ nhãn ban đầu còn nguyên; bảng so sánh; quy tắc xử lý bất đồng. |
+| Phan Văn Cường — 2A202603669 | Kiểm số | Đối chiếu ba kịch bản B3 từ CSV: chi phí trợ lý theo giới hạn lần chạy, số yêu cầu chuyển nhân viên và chi phí toàn hệ thống. | Báo cáo cá nhân có công thức và kết quả đối chiếu; chưa có commit/file code cá nhân. |
+| Hai người gắn nhãn CP3 (Hoàng Anh và Mạnh) | Gắn nhãn độc lập CP3 | Mỗi người tự đọc 20 ca trong đề DOCX và ghi nhãn theo nguyên nhân gốc vào hai cột/bản riêng. Chỉ sau khi lưu xong mới so nhãn, tính đồng thuận và thống nhất nhãn cuối. | Hai bộ nhãn ban đầu còn nguyên; bảng so sánh; quy tắc xử lý bất đồng. |
 
-**Thiếu thông tin nhóm:** đề/rubric thiết kế cho nhóm 4 người và TEAM.md yêu cầu bốn vai. Hiện chỉ có hai thành viên được cung cấp; cần bổ sung hai thành viên còn lại và thông tin lớp/email/GitHub/repo trước khi coi TEAM.md là hoàn chỉnh. Không tự điền danh tính giả. Hai người có thể chia việc theo bảng trên, nhưng cần ghi trung thực nếu cấu hình nhóm thực tế khác yêu cầu.
+**Quy mô nhóm:** hiện có ba thành viên đã cung cấp thông tin; thành viên thứ tư sẽ được bổ sung và phân công sau theo yêu cầu nhóm 4 người của đề/rubric. Không tự điền danh tính giả. Email/GitHub/repo nộp cuối chưa được cung cấp.
 
 ## Thứ tự làm để tránh chặn nhau
 
@@ -74,7 +75,7 @@ Rà soát repo Lab 13 theo RULES.md, RUBRIC.md, SUBMISSION.md và CHECKPOINTS.md
 
 ## Checklist hoàn tất
 
-- [ ] Đủ thành viên/thông tin nhóm thật trong `TEAM.md`; vai code đổi sau giờ nghỉ được ghi nhận.
+- [ ] Bổ sung thành viên thứ tư và thông tin liên hệ có thật vào `TEAM.md` khi được cung cấp; không điền danh tính giả.
 - [ ] `src/lab13.py` chạy hoàn chỉnh, ba phép thử A1 đều ĐẠT; mọi bảng khớp output.
 - [ ] `bang_chi_phi.md` có A2/A3/A4 và B1–B4; nhãn simulated đầy đủ.
 - [ ] `bang_loi.md` có hai bộ nhãn độc lập được lưu trước khi đối chiếu; đồng thuận ≥ 16/20 hoặc có định nghĩa lại nếu thấp.
